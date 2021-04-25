@@ -26,8 +26,6 @@ def process_message(args):
     else:
         creds = SLACK_WEBHOOK
 
-    print(creds)
-
     if not creds:
         print("unable to find slack credentials, post will fail")
         return 2
