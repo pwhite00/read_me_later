@@ -1,4 +1,4 @@
-###read_me_later : A tool for sending a message or url to a slack channel
+# read_me_later : A tool for sending a message or url to a slack channel
 
 
 Uses python3 and slack webhooks
@@ -14,8 +14,8 @@ idna==2.10
 protobuf==3.15.5
 PyAFF==0.1
 requests==2.25.1
-six==1.15.0
-urllib3==1.26.4
+six==1.16.0
+urllib3==1.26.8
 virtualenv==20.4.4
 ```
 
