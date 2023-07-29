@@ -1,30 +1,23 @@
-# read_me_later : A tool for sending a message or url to a slack channel
+# Read_me_later : A tool for sending a message or url to a slack channel from a terminal shell
 
 
 Uses python3 and slack webhooks
 
 python3 Requirements:
 ```
-appdirs==1.4.4
-certifi==2020.12.5
-chardet==4.0.0
-distlib==0.3.1
-filelock==3.0.12
-idna==2.10
-protobuf==3.15.5
-PyAFF==0.1
-requests==2.25.1
-six==1.16.0
-urllib3==1.26.8
-virtualenv==20.4.4
+certifi==2023.7.22
+charset-normalizer==3.2.0
+idna==3.4
+requests==2.31.0
+urllib3==2.0.4
 ```
 
-Slack Webhook can be configured one of  3 ways
+Slack Webhook can be configured in a few ways
 * Configure the SLACK_WEBHOOK global variable
 * pass the webhook URL in on the commandline using the --webhook argument
 * confgure the webhook in a JSON file and pass it  in using the --creds-file argument
 
-Exmaple JSON:
+Example JSON:
 ```
 {
   "webhook" : "webhook URL
