@@ -1,0 +1,18 @@
+# ShellCheck configuration for read_me_later project
+# Disable warnings that are acceptable for this project
+
+# SC1090: Can't follow non-constant source. Use a directive to specify location.
+# This is acceptable for our use case where we source shell profiles
+disable=SC1090
+
+# SC2034: Variable appears unused. Verify use (or export if used externally).
+# Some variables are used in the generated script content
+disable=SC2034
+
+# SC2086: Double quote to prevent globbing and word splitting.
+# We're careful about when we use this
+disable=SC2086
+
+# SC2154: Referenced but not assigned.
+# Some variables are set in the script content
+disable=SC2154 

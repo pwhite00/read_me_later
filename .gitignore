@@ -1,3 +1,38 @@
-venv
-*.json
+# Python
 __pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+.env
+
+# Test/coverage artifacts
+.venv-test/
+.pytest_cache/
+.coverage
+htmlcov/
+tests/.pytest_cache/
+tests/.coverage
+tests/htmlcov/
+
+# Rate limiting
+.read_me_later_rate_limit
+
+# Credentials (but allow examples)
+slack_creds.json
+!slack_creds.example.json
+.read_me_later.json
+!.read_me_later.example.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
