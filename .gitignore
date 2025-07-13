@@ -1,3 +1,26 @@
-venv
-*.json
+# Python
 __pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+.env
+
+# Credentials (but allow examples)
+slack_creds.json
+!slack_creds.example.json
+.read_me_later.json
+!.read_me_later.example.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

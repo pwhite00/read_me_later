@@ -6,8 +6,8 @@ import sys
 import argparse
 import contextlib
 
-# Edit SLACK_WEBHOOK with your intended Slack Webhook URL
-SLACK_WEBHOOK = "Add your Slack webhook URL here"
+# Default webhook (can be overridden via command line or config file)
+SLACK_WEBHOOK = None
 EXAMPLE_JSON = {"webhook": "https://hooks.slack.com/services/YourWebHookURL"}
 SCRIPT_NAME = sys.argv[0]
 VERSION = 1.0
@@ -24,10 +24,23 @@ def process_message(args):
     elif args.webhook:
         creds = args.webhook
     else:
-        creds = SLACK_WEBHOOK
+        # Try to load from default location ~/.read_me_later.json
+        default_config = os.path.expanduser("~/.read_me_later.json")
+        if os.path.exists(default_config):
+            print(f"Loading webhook from {default_config}")
+            creds = load_json_file(default_config)
+        else:
+            # Also try the current directory for Docker mounts
+            current_dir_config = "/app/.read_me_later.json"
+            if os.path.exists(current_dir_config):
+                print(f"Loading webhook from {current_dir_config}")
+                creds = load_json_file(current_dir_config)
+            else:
+                creds = SLACK_WEBHOOK
 
     if not creds:
         print("unable to find slack credentials, post will fail")
+        print("Please provide webhook via --webhook, --creds-file, or create ~/.read_me_later.json")
         return 2
 
     if not call_slack(args.message, creds):
@@ -46,7 +59,7 @@ def call_slack(msg, slack_url):
         print("Unable to POST [{}] to slack, error: [{}]".format(msg, err))
         return None
 
-    print("Successful POST to slack. response [{}]".format(msg, result.status_code))
+    print("Successful POST to slack. Status code: {}".format(result.status_code))
     return result.status_code
 
 
