@@ -96,7 +96,7 @@ class TestReadMeLater(unittest.TestCase):
         mock_post.assert_called_once_with(
             self.test_webhook, 
             json={"text": self.test_message},
-            headers={'User-Agent': 'read_me_later/1.1', 'Content-Type': 'application/json'},
+            headers={'User-Agent': 'read_me_later/1.2', 'Content-Type': 'application/json'},
             timeout=10
         )
 
