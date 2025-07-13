@@ -259,11 +259,39 @@ urllib3==2.5.0
 - Docker (for containerized usage)
 - Slack workspace with webhook access
 
-## Security Notes
+## Security Features
 
-- The Docker image runs as a non-root user for security
-- Webhook URLs should be kept secure and not committed to version control
-- Consider using environment variables or Docker secrets for production use
+### Input Validation
+- **Webhook URL Validation**: Ensures only legitimate Slack webhook URLs are accepted
+- **Message Length Limits**: Enforces 3000 character limit (Slack's maximum)
+- **Input Sanitization**: Validates all user inputs before processing
+
+### Rate Limiting
+- **Request Limits**: 10 requests per 60-second window
+- **File-based Storage**: Rate limit data stored in `~/.read_me_later_rate_limit`
+- **Fail-open Design**: If rate limiting fails, requests are allowed (graceful degradation)
+
+### Network Security
+- **Request Timeouts**: 10-second timeout for all HTTP requests
+- **User-Agent Headers**: Proper identification in requests
+- **HTTPS Enforcement**: Only accepts HTTPS webhook URLs
+
+### Container Security
+- **Non-root User**: Docker container runs as `appuser` instead of root
+- **Minimal Base Image**: Uses `python:3.11-slim` for smaller attack surface
+- **Secure Dependencies**: All packages updated to latest secure versions
+
+### Configuration Security
+- **Webhook Protection**: Webhook URLs kept out of Docker images
+- **File Permissions**: Configuration files use appropriate permissions
+- **Environment Variables**: Support for secure credential management
+
+### Error Handling
+- **Specific Error Codes**: 
+  - Code 4: Message too long
+  - Code 5: Rate limited  
+  - Code 6: Invalid webhook URL
+- **Graceful Failures**: Clear error messages without exposing sensitive data
 
 ## Contributing
 
@@ -277,11 +305,13 @@ urllib3==2.5.0
 
 See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes and improvements.
 
-### Current Version: 1.1.0
+### Current Version: 1.2.0
+- **Enhanced Security**: Webhook validation, rate limiting, and message length limits
+- **Comprehensive Testing**: 36 tests with 99% code coverage
 - **Docker Support**: Complete containerization with security improvements
 - **Multiple Usage Options**: Global installation, wrapper scripts, and direct Docker usage
 - **Updated Dependencies**: All packages updated to latest versions (2025)
-- **Security**: Non-root container, smaller attack surface
+- **Security**: Non-root container, input validation, and rate limiting
 
 ## License
 

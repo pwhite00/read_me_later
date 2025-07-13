@@ -1,6 +1,6 @@
 # Testing Guide for Read Me Later
 
-This project includes a comprehensive test suite covering Python code, shell scripts, Docker configuration, and integration checks.
+This project includes a comprehensive test suite covering Python code, shell scripts, Docker configuration, integration checks, and security features.
 
 ## Running All Tests
 
@@ -13,7 +13,8 @@ From the project root, run:
 This will:
 - Create a virtual environment for testing (if needed)
 - Install all main and test dependencies
-- Run all Python unit tests with coverage reporting
+- Run all Python unit tests with coverage reporting (36 tests, 99% coverage)
+- Test security features: webhook validation, rate limiting, and message length limits
 - Lint all shell scripts with ShellCheck
 - Validate the Dockerfile for syntax and security best practices
 - Build and test the Docker image
@@ -23,6 +24,8 @@ This will:
 
 - **Python Coverage:**  
   Coverage is shown in the terminal and as an HTML report at `tests/htmlcov/index.html`.
+- **Security Features:**  
+  Tests webhook validation, message length limits, rate limiting, and edge cases.
 - **ShellCheck:**  
   All bash scripts are linted, with clear pass/fail output.
 - **Docker:**  

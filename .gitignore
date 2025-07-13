@@ -18,6 +18,9 @@ tests/.pytest_cache/
 tests/.coverage
 tests/htmlcov/
 
+# Rate limiting
+.read_me_later_rate_limit
+
 # Credentials (but allow examples)
 slack_creds.json
 !slack_creds.example.json

@@ -2,6 +2,36 @@
 
 All notable changes to the Read Me Later project will be documented in this file.
 
+## [1.2.0] - 2025-01-13
+
+### Added
+- **Enhanced Security Features**:
+  - **Webhook URL Validation**: Validates that webhook URLs match Slack's expected format
+  - **Message Length Limits**: Enforces 3000 character limit (Slack's maximum)
+  - **Rate Limiting**: File-based rate limiting (10 requests per 60 seconds)
+  - **Request Timeouts**: 10-second timeout for HTTP requests
+  - **User-Agent Headers**: Proper identification in requests
+- **Comprehensive Testing**: 
+  - 36 test cases with 99% code coverage
+  - Security feature testing
+  - Edge case validation
+  - Integration testing
+- **Error Codes**: Specific error codes for different failure scenarios
+  - Code 4: Message too long
+  - Code 5: Rate limited
+  - Code 6: Invalid webhook URL
+
+### Changed
+- **Version**: Updated to 1.2.0
+- **Error Handling**: More specific error messages and return codes
+- **Security**: Fail-open rate limiting (allows requests if rate limiting fails)
+
+### Security
+- **Input Validation**: All user inputs are validated before processing
+- **Rate Limiting**: Prevents abuse and DoS attacks
+- **Webhook Security**: Ensures only legitimate Slack webhooks are accepted
+- **Request Security**: Timeouts and proper headers for all HTTP requests
+
 ## [1.1.0] - 2025-01-13
 
 ### Added
