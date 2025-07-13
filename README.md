@@ -227,6 +227,17 @@ pip install -r requirements.txt
 python read_me_later.py --help
 ```
 
+## Testing
+
+See [TESTING.md](./TESTING.md) for the full testing guide, including:
+- How to run all tests with `./test.sh`
+- Python coverage reporting
+- Shell script linting
+- Docker and integration checks
+- How to add or edit tests
+
+A summary of test results and coverage will be shown in your terminal after running the test suite.
+
 ## Requirements
 
 ### Python Dependencies

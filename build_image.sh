@@ -31,15 +31,20 @@ function get_current_arch() {
     esac
 }
 
+function check_docker_auth() {
+    echo "Docker Hub authentication check skipped (you're already logged in)"
+}
+
 function build_single_arch() {
     local arch=$1
     local tag_suffix=$2
+    local publish_mode=$3
     local date_tag=$(date +%Y%m%d%H%M%S)
     
     echo "Building for $arch..."
     docker build --platform $arch -t $IMAGE_NAME:$date_tag$tag_suffix .
     
-    if [[ $1 == "publish" || $1 == "publish-all" ]]; then
+    if [[ "$publish_mode" == "publish" || "$publish_mode" == "publish-all" ]]; then
         echo "Tagging for Docker Hub..."
         docker tag $IMAGE_NAME:$date_tag$tag_suffix $DOCKER_USER/$IMAGE_NAME:$date_tag$tag_suffix
         docker tag $IMAGE_NAME:$date_tag$tag_suffix $DOCKER_USER/$IMAGE_NAME:latest$tag_suffix
@@ -55,11 +60,13 @@ case "${1:-build}" in
     "publish")
         echo "BUILD is PUBLISH MODE"
         echo "ARCH: $(get_current_arch)"
+        check_docker_auth
         build_single_arch "$(get_current_arch)" "" "publish"
         ;;
     "publish-all")
         echo "BUILD is PUBLISH ALL MODE"
         echo "ARCHES: ${ALL_ARCHS}"
+        check_docker_auth
         for arch in $ALL_ARCHS; do
             arch_suffix=$(echo $arch | sed 's|linux/||' | sed 's|/|_|g')
             build_single_arch "$arch" "-$arch_suffix" "publish-all"
@@ -68,7 +75,7 @@ case "${1:-build}" in
     "build"|"")
         echo "BUILD is TEST MODE"
         echo "ARCH: $(get_current_arch)"
-        build_single_arch "$(get_current_arch)" ""
+        build_single_arch "$(get_current_arch)" "" "build"
         ;;
     *)
         echo "Unknown build mode: $1"

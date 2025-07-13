@@ -71,6 +71,7 @@ def load_json_file(filename):
     """
     if not os.path.isfile(filename):
         print("{} not found".format(filename))
+        return None
 
     with contextlib.closing(open(filename)) as file_open:
         try:

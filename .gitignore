@@ -9,6 +9,15 @@ env/
 .venv/
 .env
 
+# Test/coverage artifacts
+.venv-test/
+.pytest_cache/
+.coverage
+htmlcov/
+tests/.pytest_cache/
+tests/.coverage
+tests/htmlcov/
+
 # Credentials (but allow examples)
 slack_creds.json
 !slack_creds.example.json
