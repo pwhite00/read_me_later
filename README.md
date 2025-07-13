@@ -2,6 +2,11 @@
 
 A Python tool for sending messages to a Slack channel via webhooks. Perfect for saving articles, links, or notes to read later.
 
+[![Docker Hub](https://img.shields.io/docker/pulls/pwhite00/read_me_later.svg)](https://hub.docker.com/r/pwhite00/read_me_later)
+[![Docker Image Size](https://img.shields.io/docker/image-size/pwhite00/read_me_later/latest)](https://hub.docker.com/r/pwhite00/read_me_later)
+
+**🐳 Docker Hub**: [pwhite00/read_me_later](https://hub.docker.com/r/pwhite00/read_me_later)
+
 ## Features
 
 - 🐳 **Docker Support**: Run anywhere with Docker
@@ -20,13 +25,28 @@ A Python tool for sending messages to a Slack channel via webhooks. Perfect for 
 # Local wrapper
 ./readlater.sh "Your message here"
 
-# Direct Docker
-docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json read_me_later:20250713081336 --message "Your message here"
+# Direct Docker (from Docker Hub)
+docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json pwhite00/read_me_later:latest --message "Your message here"
 ```
 
 ## Quick Start with Docker
 
-### 1. Build the Image
+### Option 1: Use Docker Hub (Recommended)
+
+```bash
+# Pull and run directly from Docker Hub
+docker run --rm pwhite00/read_me_later:latest \
+  --webhook "https://hooks.slack.com/services/YOUR/WEBHOOK/URL" \
+  --message "Check out this article: https://example.com"
+
+# Using a credentials file
+echo '{"webhook": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"}' > slack_creds.json
+docker run --rm -v $(pwd)/slack_creds.json:/app/creds.json pwhite00/read_me_later:latest \
+  --creds-file /app/creds.json \
+  --message "Another interesting link: https://example.org"
+```
+
+### Option 2: Build Locally (for development)
 
 ```bash
 # Build for your current architecture
@@ -36,22 +56,7 @@ docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json read_me_later:
 ./build_image.sh publish
 ```
 
-**Note**: The build script creates timestamped tags (e.g., `read_me_later:20250713081336`). The wrapper scripts automatically find and use the latest built image.
-
-### 2. Run with Docker
-
-```bash
-# Basic usage with webhook URL
-docker run --rm read_me_later:20250713081336 \
-  --webhook "https://hooks.slack.com/services/YOUR/WEBHOOK/URL" \
-  --message "Check out this article: https://example.com"
-
-# Using a credentials file
-echo '{"webhook": "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"}' > slack_creds.json
-docker run --rm -v $(pwd)/slack_creds.json:/app/creds.json read_me_later:20250713081336 \
-  --creds-file /app/creds.json \
-  --message "Another interesting link: https://example.org"
-```
+**Note**: The build script creates timestamped tags (e.g., `read_me_later:20250713081336`). For production use, prefer the Docker Hub image `pwhite00/read_me_later:latest`.
 
 ## Installation Options
 
@@ -60,10 +65,10 @@ docker run --rm -v $(pwd)/slack_creds.json:/app/creds.json read_me_later:2025071
 The easiest way to use this tool is with Docker:
 
 ```bash
-# Pull from Docker Hub (if published)
+# Pull from Docker Hub (recommended)
 docker pull pwhite00/read_me_later:latest
 
-# Or build locally
+# Or build locally (for development)
 ./build_image.sh
 ```
 
@@ -95,7 +100,7 @@ python read_me_later.py --webhook "YOUR_WEBHOOK_URL" --message "Your message"
 
 #### Method 1: Command Line (Recommended for Docker)
 ```bash
-docker run --rm read_me_later:20250713081336 \
+docker run --rm pwhite00/read_me_later:latest \
   --webhook "https://hooks.slack.com/services/YOUR/WEBHOOK/URL" \
   --message "Your message here"
 ```
@@ -110,7 +115,7 @@ Create a file `slack_creds.json`:
 
 Then use:
 ```bash
-docker run --rm -v $(pwd)/slack_creds.json:/app/creds.json read_me_later:20250713081336 \
+docker run --rm -v $(pwd)/slack_creds.json:/app/creds.json pwhite00/read_me_later:latest \
   --creds-file /app/creds.json \
   --message "Your message here"
 ```
@@ -125,7 +130,7 @@ Create `~/.read_me_later.json` in your home directory:
 
 Then simply run:
 ```bash
-docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json read_me_later:20250713081336 \
+docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json pwhite00/read_me_later:latest \
   --message "Your message here"
 ```
 
@@ -135,14 +140,14 @@ docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json read_me_later:
 
 ### Save an Article Link
 ```bash
-docker run --rm read_me_later:20250713081336 \
+docker run --rm pwhite00/read_me_later:latest \
   --webhook "YOUR_WEBHOOK_URL" \
   --message "📚 Article to read later: https://medium.com/interesting-article"
 ```
 
 ### Save a Note
 ```bash
-docker run --rm read_me_later:20250713081336 \
+docker run --rm pwhite00/read_me_later:latest \
   --webhook "YOUR_WEBHOOK_URL" \
   --message "💡 Remember to check the new API documentation"
 ```
@@ -150,7 +155,7 @@ docker run --rm read_me_later:20250713081336 \
 ### Create an Alias (Optional)
 Add to your shell profile (`.bashrc`, `.zshrc`, etc.):
 ```bash
-alias readlater='docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json read_me_later:20250713081336 --message'
+alias readlater='docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json pwhite00/read_me_later:latest --message'
 ```
 
 Then use:
@@ -197,7 +202,7 @@ export SLACK_WEBHOOK="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
 #### Option 4: Direct Docker (for advanced users)
 ```bash
 docker run --rm -v ~/.read_me_later.json:/app/.read_me_later.json \
-  read_me_later:20250713081336 --message "Your message here"
+  pwhite00/read_me_later:latest --message "Your message here"
 ```
 
 ## Development
