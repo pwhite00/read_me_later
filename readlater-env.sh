@@ -38,12 +38,10 @@ if [[ -z "$LATEST_IMAGE" ]]; then
 fi
 
 # Run the Docker container with environment variable
-docker run --rm -e SLACK_WEBHOOK="$SLACK_WEBHOOK" \
+if docker run --rm -e SLACK_WEBHOOK="$SLACK_WEBHOOK" \
     read_me_later:$LATEST_IMAGE \
     --webhook "$SLACK_WEBHOOK" \
-    --message "$*" 2>/dev/null
-
-if [[ $? -eq 0 ]]; then
+    --message "$*" 2>/dev/null; then
     echo "✅ Message sent to Slack for later reading"
 else
     echo "❌ Failed to send message"

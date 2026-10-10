@@ -39,7 +39,8 @@ function build_single_arch() {
     local arch=$1
     local tag_suffix=$2
     local publish_mode=$3
-    local date_tag=$(date +%Y%m%d%H%M%S)
+    local date_tag
+    date_tag=$(date +%Y%m%d%H%M%S)
     
     echo "Building for $arch..."
     docker build --platform $arch -t $IMAGE_NAME:$date_tag$tag_suffix .

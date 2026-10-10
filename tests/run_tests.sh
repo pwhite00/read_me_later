@@ -33,10 +33,10 @@ function print_subheader() {
 function print_result() {
     if [[ $1 -eq 0 ]]; then
         echo -e "${GREEN}✅ PASSED${NC}"
-        ((TESTS_PASSED++))
+        TESTS_PASSED=$((TESTS_PASSED + 1))
     else
         echo -e "${RED}❌ FAILED${NC}"
-        ((TESTS_FAILED++))
+        TESTS_FAILED=$((TESTS_FAILED + 1))
     fi
 }
 
@@ -54,10 +54,12 @@ function run_python_tests() {
         echo -e "${YELLOW}⚠️  Not in virtual environment. Creating test venv...${NC}"
         if [[ -d ".venv-test" ]]; then
             echo "Activating existing test virtual environment..."
+            # shellcheck source=/dev/null
             source .venv-test/bin/activate
         else
             echo "Creating new test virtual environment..."
             python3 -m venv .venv-test
+            # shellcheck source=/dev/null
             source .venv-test/bin/activate
             echo "Installing test dependencies..."
             pip install -r requirements-test.txt
@@ -147,7 +149,7 @@ function validate_dockerfile() {
     print_subheader "Syntax Validation"
     # Validate Dockerfile syntax
     echo "Validating Dockerfile syntax..."
-    if docker build --dry-run -f ../Dockerfile .. >/dev/null 2>&1; then
+    if docker build --check -f ../Dockerfile .. >/dev/null 2>&1; then
         echo -e "${GREEN}✅ Dockerfile syntax is valid${NC}"
     else
         echo -e "${RED}❌ Dockerfile syntax is invalid${NC}"
@@ -164,7 +166,7 @@ function validate_dockerfile() {
         echo -e "${GREEN}✅ Non-root user configured${NC}"
     else
         echo -e "${RED}❌ No non-root user found${NC}"
-        ((security_issues++))
+        security_issues=$((security_issues + 1))
     fi
     
     # Check for multi-stage build (optional)
