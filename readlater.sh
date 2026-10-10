@@ -26,11 +26,9 @@ if [[ -f "$DEFAULT_CONFIG" ]]; then
     fi
     
     # Use the default config file (silent mode)
-    docker run --rm -v "$DEFAULT_CONFIG:/app/.read_me_later.json" \
+    if docker run --rm -v "$DEFAULT_CONFIG:/app/.read_me_later.json" \
         read_me_later:$LATEST_IMAGE \
-        --message "$*" 2>/dev/null
-    
-    if [[ $? -eq 0 ]]; then
+        --message "$*" 2>/dev/null; then
         echo "✅ Message sent to Slack for later reading"
     else
         echo "❌ Failed to send message"

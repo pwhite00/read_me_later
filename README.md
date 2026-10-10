@@ -255,7 +255,7 @@ urllib3==2.5.0
 ```
 
 ### System Requirements
-- Python 3.7+ (for local development)
+- Python 3.10+ (for local development; required by current requests/urllib3)
 - Docker (for containerized usage)
 - Slack workspace with webhook access
 
